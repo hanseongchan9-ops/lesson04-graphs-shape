@@ -10,9 +10,9 @@ st.set_page_config(
 
 st.title("영화 데이터 그래프 도감 2 - 분포와 관계")
 
-DATA_URL = "https://raw.githubusercontent.com/greatsong/modudata/main/data/kobis_movies.csv"
+# 변경된 데이터 URL
+DATA_URL = "https://raw.githubusercontent.com/happykth/data/main/kobis_movies.csv"
 
-# 데이터 불러오기 함수 (예외 처리 추가)
 @st.cache_data
 def load_data(url):
     try:
@@ -20,11 +20,11 @@ def load_data(url):
     except UnicodeDecodeError:
         df = pd.read_csv(url, encoding='cp949')
     
+    # 장르가 여럿인 경우 첫 번째 장르만 추출
     if 'genre' in df.columns:
         df['genre'] = df['genre'].fillna('미상').astype(str).apply(lambda x: x.split('|')[0].strip())
     return df
 
-# 메인 실행 구역
 try:
     df = load_data(DATA_URL)
 

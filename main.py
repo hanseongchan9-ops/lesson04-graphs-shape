@@ -280,5 +280,43 @@ try:
     )
     st.divider()
 
+    # --------------------------------------------------
+    # 8. 10위권에 오래 머문 영화는 총 관객도 많은가 (산점도)
+    # --------------------------------------------------
+    st.header("8. 10위권에 오래 머문 영화는 총 관객도 많은가")
+
+    fig8 = px.scatter(
+        df,
+        x='days_in_top10',
+        y='total_audi',
+        color='genre',
+        hover_name='movieNm',
+        title="10위권에 오래 머문 영화는 총 관객도 많은가",
+        labels={
+            'days_in_top10': '10위권에 머문 날수',
+            'total_audi': '총 관객 수',
+            'genre': '장르'
+        }
+    )
+
+    fig8.update_traces(
+        hovertemplate='<b>영화명</b>: %{hovertext}<br><b>10위권 머문 날수</b>: %{x}일<br><b>총 관객 수</b>: %{y:,}명'
+    )
+
+    fig8.update_layout(
+        xaxis_title="10위권에 머문 날수 (일)",
+        yaxis_title="총 관객 수 (명)"
+    )
+
+    st.plotly_chart(fig8, use_container_width=True)
+
+    st.divider()
+    st.subheader("이 그래프로 알 수 있는 것")
+    st.write(
+        "10위권 머문 날수가 길수록 대체로 총 관객 수가 늘어나는 강한 양의 상관관계를 보이지만, "
+        "유지 기간이 비슷하더라도 총 관객 수의 절대적인 규모에는 영화별 차이가 크게 나타남을 알 수 있습니다."
+    )
+    st.divider()
+
 except Exception as e:
     st.error(f"데이터를 불러오거나 처리하는 중 오류가 발생했습니다: {e}")
